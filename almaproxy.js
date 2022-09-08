@@ -10,12 +10,8 @@ var host = config.HOST;
 var node_env = config.NODE_ENV;
 
 var options = {
-  key: fs.readFileSync(
-    "/home/projekterkea/ssl/keys/cee57_b1055_41d5cebe6b0e5f396bc521709111b7b9.key"
-  ),
-  cert: fs.readFileSync(
-    "/home/projekterkea/ssl/certs/cpcalendars_projekter_kea_dk_cee57_b1055_1667909481_dd06f94609f02df79d92791162dc8295.crt"
-  ),
+  key: fs.readFileSync(config.KEY_PATH),
+  cert: fs.readFileSync(config.CERT_PATH),
 };
 
 var app = express();
