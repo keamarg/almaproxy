@@ -1,10 +1,11 @@
+const config = require("./config.js");
 var fs = require("fs"),
   http = require("http"),
   https = require("https"),
   fetch = require("node-fetch"),
   express = require("express");
 
-var port = 8080;
+var port = config.PORT;
 
 var options = {
   key: fs.readFileSync(
