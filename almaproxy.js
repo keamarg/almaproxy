@@ -22,10 +22,6 @@ var app = express();
 
 console.log(`NODE_ENV=${node_env}`);
 
-// var server = https.createServer(options, app).listen(port, function () {
-//   console.log("Express server listening on port " + port);
-// });
-
 // // Add headers
 // app.use(function (req, res, next) {
 //   // Website you wish to allow to connect
@@ -49,7 +45,11 @@ console.log(`NODE_ENV=${node_env}`);
 //   next();
 // });
 
-app.listen(port, host, () => {
+// app.listen(port, host, () => {
+//   console.log(`APP LISTENING ON http://${host}:${port}`);
+// });
+
+var server = https.createServer(options, app).listen(port, function () {
   console.log(`APP LISTENING ON http://${host}:${port}`);
 });
 
