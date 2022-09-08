@@ -8,10 +8,14 @@ var fs = require("fs"),
 var port = config.PORT;
 var host = config.HOST;
 var node_env = config.NODE_ENV;
+var key_path = config.KEY_PATH;
+var cert_path = config.CERT_PATH;
+
+console.log(port, host, key_path, cert_path);
 
 var options = {
-  key: fs.readFileSync(config.KEY_PATH),
-  cert: fs.readFileSync(config.CERT_PATH),
+  key: fs.readFileSync(key_path),
+  cert: fs.readFileSync(cert_path),
 };
 
 var app = express();
