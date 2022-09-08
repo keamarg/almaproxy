@@ -1,12 +1,12 @@
-const dotenv = require("dotenv");
-const { Http2ServerRequest } = require("http2");
-const path = require("path");
-
-dotenv.config({
+require("dotenv").config({
   path: path.resolve(__dirname, `${process.env.NODE_ENV}.env`),
 });
+const path = require("path");
 
-console.log(process.env.HOST);
+// dotenv.config({
+//   path: path.resolve(__dirname, `${process.env.NODE_ENV}.env`),
+// });
+
 module.exports = {
   NODE_ENV: process.env.NODE_ENV,
   HOST: process.env.HOST,
