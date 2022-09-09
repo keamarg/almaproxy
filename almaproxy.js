@@ -4,6 +4,9 @@ var fs = require("fs"),
   https = require("https"),
   fetch = require("node-fetch"),
   express = require("express");
+var connect = require("connect");
+const { nextTick } = require("process");
+var app = connect();
 
 var port = config.PORT;
 var host = config.HOST;
@@ -11,16 +14,56 @@ var node_env = config.NODE_ENV;
 var key_path = config.KEY_PATH;
 var cert_path = config.CERT_PATH;
 
-console.log(port, host, key_path, cert_path);
+if (node_env == "production") {
+  var options = {
+    key: fs.readFileSync(key_path),
+    cert: fs.readFileSync(cert_path),
+  };
+}
 
-var options = {
-  key: fs.readFileSync(key_path),
-  cert: fs.readFileSync(cert_path),
-};
+// var server = http.createServer(function (req, res) {
+//   res.writeHead(200);
+//   res.write("Hello World");
+//   res.end();
+// });
+// server.listen(port);
+// console.log(`Listening on http://${host}:${port}/`);
+// var app = express();
 
-var app = express();
+// Add headers
+app.use(function (req, response, next) {
+  // response.setHeader("Access-Control-Allow-Origin", "*");
+  response.setHeader("Access-Control-Allow-Credentials", "true");
+  response.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,OPTIONS,POST,PUT"
+  );
+  response.setHeader(
+    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+  );
 
-console.log(`NODE_ENV=${node_env}`);
+  next();
+});
+
+// respond to all requests
+app.use(function (req, res, next) {
+  res.write("Hello from Connect!\n");
+  next();
+});
+
+app.use(function (req, res) {
+  res.end("Hellos from Connect!\n");
+});
+
+//create node.js http server and listen on port
+http.createServer(app).listen(port);
+
+// console.log(`NODE_ENV=${node_env}`);
+
+// var server = http.createServer(options, app).listen(port, function () {
+//   console.log(`APP LISTENING ON http://${host}:${port}`);
+// });
 
 // // Add headers
 // app.use(function (req, res, next) {
@@ -37,42 +80,44 @@ console.log(`NODE_ENV=${node_env}`);
 //   //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
 //   res.setHeader("Content-type", "application/json");
+//   res.setHeader("Accept", "application/json");
+
 //   // Set to true if you need the website to include cookies in the requests sent
 //   // to the API (e.g. in case you use sessions)
 //   res.setHeader("Access-Control-Allow-Credentials", true);
 
 //   // Pass to next layer of middleware
+
 //   next();
 // });
 
-// app.listen(port, host, () => {
-//   console.log(`APP LISTENING ON http://${host}:${port}`);
+// // app.listen(port, host, () => {
+// //   console.log(`APP LISTENING ON http://${host}:${port}`);
+// // });
+
+// // console.log(test);
+// app.get("/", (req, res) => {
+//   res.send('{"message":"hello world"}');
+//   // res.send(fetchData);
+//   // res.send("hello world");
 // });
 
-var server = https.createServer(options, app).listen(port, function () {
-  console.log(`APP LISTENING ON http://${host}:${port}`);
-});
-
-let test = null;
-fetch(
-  "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?apikey=l8xx1d07986de63b4d0289d5bac8374d99c3",
-  {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  }
-)
-  .then((res) => res.json())
-  .then((json) => {
-    return json;
-  });
-
-console.log(test);
-app.get("/", (req, res) => {
-  res.send('{"message":"hello world"}');
-});
+// // let test = null;
+// const fetchData = fetch(
+//   "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?apikey=l8xx1d07986de63b4d0289d5bac8374d99c3",
+//   {
+//     headers: {
+//       "Access-Control-Allow-Origin": "*",
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//     },
+//   }
+// )
+//   .then((res) => res.json())
+//   .then((json) => {
+//     console.log(json);
+//     return json;
+//   });
 
 // const fetchData = async function fetchData() {
 //   const url =
@@ -122,5 +167,5 @@ app.get("/", (req, res) => {
 
 // app.get("/", function (req, res) {
 //   res.writeHead(200);
-//   res.end("hello world");
+// res.end("hello world");
 // });
