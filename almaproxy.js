@@ -16,7 +16,7 @@ var cert_path = config.CERT_PATH;
 
 if (node_env == "production") {
   var options = {
-    key: fs.readFileSync(key_path),
+    key: fs.readFileSync(`${key_path}`),
     cert: fs.readFileSync(cert_path),
   };
 }
