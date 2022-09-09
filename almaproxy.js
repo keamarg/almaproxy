@@ -61,7 +61,7 @@ app.use(function (req, res) {
 });
 
 //create node.js http server and listen on port
-http.createServer(app).listen(port);
+https.createServer(app).listen(port);
 
 // console.log(`NODE_ENV=${node_env}`);
 
