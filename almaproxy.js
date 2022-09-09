@@ -61,7 +61,7 @@ app.use(function (req, res) {
 
 // console.log(`NODE_ENV=${node_env}`);
 
-var server = https.createServer(options, app).listen(port, function () {
+var server = http.createServer(options, app).listen(port, function () {
   console.log(`APP LISTENING ON http://${host}:${port}`);
 });
 
@@ -103,21 +103,21 @@ var server = https.createServer(options, app).listen(port, function () {
 // });
 
 // // let test = null;
-// const fetchData = fetch(
-//   "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?apikey=l8xx1d07986de63b4d0289d5bac8374d99c3",
-//   {
-//     headers: {
-//       "Access-Control-Allow-Origin": "*",
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//     },
-//   }
-// )
-//   .then((res) => res.json())
-//   .then((json) => {
-//     console.log(json);
-//     return json;
-//   });
+const fetchData = fetch(
+  "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?apikey=l8xx1d07986de63b4d0289d5bac8374d99c3",
+  {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }
+)
+  .then((res) => res.json())
+  .then((json) => {
+    console.log(json);
+    return json;
+  });
 
 // const fetchData = async function fetchData() {
 //   const url =
