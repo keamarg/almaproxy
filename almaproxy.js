@@ -17,10 +17,10 @@ var cert_path = config.CERT_PATH;
 if (node_env == "production") {
   var options = {
     key: fs.readFileSync(
-      "/home/projekterkea/ssl/keys/cee57_b1055_41d5cebe6b0e5f396bc521709111b7b9.key"
+      /home/projekterkea/ssl/keys/cee57_b1055_41d5cebe6b0e5f396bc521709111b7b9.key
     ),
     cert: fs.readFileSync(
-      "/home/projekterkea/ssl/certs/cpcalendars_projekter_kea_dk_cee57_b1055_1667909481_dd06f94609f02df79d92791162dc8295.crt"
+      /home/projekterkea/ssl/certs/cpcalendars_projekter_kea_dk_cee57_b1055_1667909481_dd06f94609f02df79d92791162dc8295.crt
     ),
   };
 }
@@ -61,7 +61,7 @@ app.use(function (req, res) {
 });
 
 //create node.js http server and listen on port
-https.createServer(app).listen(port);
+http.createServer(app).listen(port);
 
 // console.log(`NODE_ENV=${node_env}`);
 
