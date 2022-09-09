@@ -57,13 +57,13 @@ app.use(function (req, res) {
 });
 
 //create node.js http server and listen on port
-http.createServer(options, app).listen(port);
+// http.createServer(options, app).listen(port);
 
 // console.log(`NODE_ENV=${node_env}`);
 
-// var server = http.createServer(options, app).listen(port, function () {
-//   console.log(`APP LISTENING ON http://${host}:${port}`);
-// });
+var server = http.createServer(options, app).listen(port, function () {
+  console.log(`APP LISTENING ON http://${host}:${port}`);
+});
 
 // // Add headers
 // app.use(function (req, res, next) {
