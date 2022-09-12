@@ -11,4 +11,5 @@ module.exports = {
   PORT: process.env.PORT || 3000,
   KEY_PATH: process.env.KEY_PATH,
   KEY_CERT: process.env.KEY_CERT,
+  API_KEY: process.env.API_KEY,
 };

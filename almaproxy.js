@@ -6,6 +6,7 @@ var fs = require("fs"),
   express = require("express");
 var connect = require("connect");
 const { nextTick } = require("process");
+const { json } = require("express");
 var app = connect();
 
 var port = config.PORT;
@@ -13,6 +14,7 @@ var host = config.HOST;
 var node_env = config.NODE_ENV;
 var key_path = config.KEY_PATH;
 var cert_path = config.CERT_PATH;
+var api_key = config.API_KEY;
 
 if (node_env == "production") {
   var options = {
@@ -26,7 +28,7 @@ if (node_env == "production") {
     // ),
   };
 }
-console.log(`${key_path}`);
+// console.log(`${key_path}`);
 
 // var server = http.createServer(function (req, res) {
 //   res.writeHead(200);
@@ -39,7 +41,7 @@ console.log(`${key_path}`);
 
 // Add headers
 app.use(function (req, response, next) {
-  // response.setHeader("Access-Control-Allow-Origin", "*");
+  response.setHeader("Access-Control-Allow-Origin", "*");
   response.setHeader("Access-Control-Allow-Credentials", "true");
   response.setHeader(
     "Access-Control-Allow-Methods",
@@ -47,8 +49,9 @@ app.use(function (req, response, next) {
   );
   response.setHeader(
     "Access-Control-Allow-Headers",
-    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+    "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
   );
+  // response.setHeader("Authorization", `apikey ${api_key}`);
 
   next();
 });
@@ -56,11 +59,14 @@ app.use(function (req, response, next) {
 // respond to all requests
 app.use(function (req, res, next) {
   res.write("Hello from Connect!\n");
+  res.write(JSON.stringify(newdata));
+  res.end(JSON.stringify(req.headers));
   next();
 });
 
 app.use(function (req, res) {
-  res.end("Hellos from Connect!\n");
+  // res.end(JSON.stringify(newdata));
+  // res.end(fetchData);
 });
 
 //create node.js http server and listen on port
@@ -68,7 +74,7 @@ app.use(function (req, res) {
 
 // console.log(`NODE_ENV=${node_env}`);
 
-var server = https.createServer(options, app).listen(port, function () {
+var server = http.createServer(options, app).listen(port, function () {
   console.log(`APP LISTENING ON http://${host}:${port}`);
 });
 
@@ -110,69 +116,88 @@ var server = https.createServer(options, app).listen(port, function () {
 // });
 
 // // let test = null;
-const fetchData = fetch(
-  "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?apikey=l8xx1d07986de63b4d0289d5bac8374d99c3",
-  {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
+let newdata = [];
+// const fetchData = fetch(
+//   "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?apikey=l8xx1d07986de63b4d0289d5bac8374d99c3",
+//   {
+//     headers: {
+//       "Access-Control-Allow-Origin": "*",
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//     },
+//   }
+// )
+//   .then((res) => res.text())
+//   .then((data) => {
+//     newdata = data;
+//   });
+
+// self-onvoking fetch funktion
+(async function fetchData() {
+  const url =
+    "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios";
+  try {
+    //henter productLinks ind fra den aktuelle portfolio, så de kan bruges til at hente products
+    console.log("loading products");
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `apikey ${api_key}`,
+        // "Access-Control-Allow-Origin": "*",
+        Accept: "application/json",
+        // "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    // console.log(data);
+    newdata = data;
+
+    //     //Ændret til "reduce" funktionen nedenfor, for at filtrere uønskede produkter fra
+    //     const productLinks = data.portfolio.map((product, index) => {
+    //       let linkList = [];
+    //       return (linkList[index] = {
+    //         link: product.resource_metadata.mms_id.link,
+    //       });
+    //     });
+
+    const productLinks = data.portfolio.reduce((result, product) => {
+      if (product.resource_metadata.title !== "Dilemmaspil.") {
+        result.push({ link: product.resource_metadata.mms_id.link });
+      }
+      return result;
+    }, []);
+
+    //bruger productLinks til at hente products ind
+    productLinks.map(async (link) => {
+      console.log(`${link.link}?apikey=${api_key}`);
+
+      const response = await fetch(`${link.link}?apikey=${api_key}`, {
+        headers: {
+          Authorization: `apikey ${api_key}`,
+          // "Access-Control-Allow-Origin": "*",
+          Accept: "application/json",
+          // credentials: 'include'
+          // Authorization: "apikey " + api_key,
+          // X-API-Key: api_key
+          // "Content-Type": "application/json",
+          // Authentication: `token ${api_key}`,
+          // Authorization: "Bearer " + api_key,
+          // Authorization: `Basic ${api_key}`,
+          // Authorization: apikey "l8xx1d07986de63b4d0289d5bac8374d99c3",
+        },
+      });
+      const data = await response.text();
+      // this.parseProducts(data);
+      console.log(data);
+    });
+    this.loading = false;
+    // console.log(this.products);
+  } catch (error) {
+    console.error(error);
   }
-)
-  .then((res) => res.json())
-  .then((json) => {
-    console.log(json);
-    return json;
-  });
-
-// const fetchData = async function fetchData() {
-//   const url =
-//     "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?apikey=l8xx1d07986de63b4d0289d5bac8374d99c3";
-//   try {
-//     //henter productLinks ind fra den aktuelle portfolio, så de kan bruges til at hente products
-//     console.log("loading products");
-//     const response = await fetch(url, {
-//       headers: {
-//         "Access-Control-Allow-Origin": "*",
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     const data = await response.json();
-//     console.log(data);
-
-// Ændret til "reduce" funktionen nedenfor, for at filtrere uønskede produkter fra
-// const productLinks = data.portfolio.map((product, index) => {
-//   let linkList = [];
-//   return (linkList[index] = {
-//     link: product.resource_metadata.mms_id.link,
-//   });
-// });
-
-// const productLinks = data.portfolio.reduce((result, product) => {
-//   if (product.resource_metadata.title !== "Dilemmaspil.") {
-//     result.push({ link: product.resource_metadata.mms_id.link });
-//   }
-//   return result;
-// }, []);
-
-// //bruger productLinks til at hente products ind
-// productLinks.map(async (link) => {
-//   const response = await fetch(link.link, {
-//     headers: { "Content-type": "application/json" },
-//   });
-//   const data = await response.json();
-//   this.parseProducts(data);
-// });
-// this.loading = false;
-// // console.log(this.products);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+})();
 
 // app.get("/", function (req, res) {
 //   res.writeHead(200);
 // res.end("hello world");
 // });
+// fetchData();
