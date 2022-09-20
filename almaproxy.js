@@ -70,7 +70,6 @@ app.get("/info", (req, res, next) => {
 // Authorization
 app.use("", (req, res, next) => {
   req.headers.authorization = "apikey " + api_key;
-
   if (req.headers.authorization) {
     next();
   } else {
@@ -97,9 +96,9 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=${increaseOffSet(
+      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=1&offset=${increaseOffSet(
         12
-      )}&offset=0`,
+      )}`,
     },
   })
 );
@@ -118,7 +117,6 @@ app.use(
 // Start the Proxy
 app.listen(port, host, () => {
   console.log(`Starting Proxy at ${host}:${port}`);
-  console.log(`${offSet}`);
 });
 
 // var http = require("http"),
