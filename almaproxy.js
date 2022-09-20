@@ -70,8 +70,7 @@ app.get("/info", (req, res, next) => {
 // Authorization
 app.use("", (req, res, next) => {
   req.headers.authorization = "apikey " + api_key;
-  req.headers.limit = 60;
-  req.headers.offset = 0;
+
   if (req.headers.authorization) {
     next();
   } else {
@@ -98,7 +97,9 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios`,
+      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=${increaseOffSet(
+        60
+      )}`,
     },
   })
 );
