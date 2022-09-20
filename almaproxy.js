@@ -91,8 +91,8 @@ app.use("", (req, res, next) => {
 
 const rewriteFn = function (path, req) {
   return path.replace(
-    `^/productlist`,
-    `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=12`
+    "/productlist",
+    "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=12"
   );
 };
 
