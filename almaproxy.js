@@ -95,7 +95,7 @@ app.use("/:id", (req, res) => {
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^${req.params.id}`]: "/almaws/v1/bibs/" + req.params.id,
+      [`^`]: "/almaws/v1/bibs/" + req.params.id,
     },
   });
 });
