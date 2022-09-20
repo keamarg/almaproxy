@@ -78,13 +78,13 @@ app.use("", (req, res, next) => {
 });
 
 let offSet = 0;
-const increaseOffSet = () => {
+const increaseOffSet = (value) => {
   console.log("offset: " + offSet);
   if ((offSet = 0)) {
-    offSet = offSet + 12;
+    offSet = offSet + value;
     return 0;
   } else {
-    offSet = offSet + 12;
+    offSet = offSet + value;
     return offSet;
   }
 };
@@ -96,7 +96,9 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=${increaseOffSet}`,
+      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=${increaseOffSet(
+        12
+      )}`,
     },
   })
 );
