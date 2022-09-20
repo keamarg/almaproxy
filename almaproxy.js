@@ -97,7 +97,7 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^`]: "/almaws/v1/bibs/99128416807387",
+      [`^/product`]: "/almaws/v1/bibs/99128416807387",
     },
   })
 );
