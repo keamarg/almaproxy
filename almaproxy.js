@@ -91,12 +91,12 @@ app.use(
 );
 
 app.use("/product/:id", (req, res, next) => {
-  console.log(req.params.id);
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/product/${req.params.id}`]: "/almaws/v1/bibs/" + req.params.id,
+      // [`^/product/${req.params.id}`]: "/almaws/v1/bibs/" + req.params.id,
+      [`^/product/${req.params.id}`]: "almaws/v1/bibs/99128416307387",
     },
   });
 });
