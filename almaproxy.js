@@ -79,7 +79,7 @@ app.use("", (req, res, next) => {
 
 let offSet = 0;
 const increaseOffSet = (value) => {
-  console.log("offset: "offSet);
+  console.log("offset: " + offSet);
   if ((offSet = 0)) {
     offSet = offSet + value;
     return 0;
