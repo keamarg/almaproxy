@@ -95,7 +95,7 @@ app.use("/product/:id", (req, res) => {
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/product/${req.params.id}`]: "/almaws/v1/bibs/" + req.params.id,
+      [`^/remove/api`]: "/almaws/v1/bibs/" + req.params.id,
     },
   });
 });
