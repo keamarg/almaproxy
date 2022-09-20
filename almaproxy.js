@@ -35,6 +35,8 @@ const morgan = require("morgan");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const url = "https://api-eu.hosted.exlibrisgroup.com";
+const productListUrl =
+  "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=1&offset=12";
 
 // Create Express Server
 const app = express();
@@ -96,9 +98,7 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=1&offset=${increaseOffSet(
-        12
-      )}`,
+      [`^/productlist`]: `${productListUrl},
     },
   })
 );
