@@ -92,7 +92,6 @@ app.use(
 
 app.use(
   "/product:id",
-  (req, res),
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
