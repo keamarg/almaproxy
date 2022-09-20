@@ -79,7 +79,7 @@ app.use("", (req, res, next) => {
 
 let offSet = 0;
 const increaseOffSet = (value) => {
-  console.log(offSet);
+  console.log("offset: "offSet);
   if ((offSet = 0)) {
     offSet = offSet + value;
     return 0;
@@ -96,7 +96,9 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=4`,
+      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=${increaseOffSet(
+        12
+      )}`,
     },
   })
 );
