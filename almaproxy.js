@@ -77,16 +77,23 @@ app.use("", (req, res, next) => {
   }
 });
 
-let offSet = 0;
-const increaseOffSet = (value) => {
-  console.log("offset: " + offSet);
-  if ((offSet = 0)) {
-    offSet = offSet + value;
-    return 0;
-  } else {
-    offSet = offSet + value;
-    return offSet;
-  }
+// let offSet = 0;
+// const increaseOffSet = (value) => {
+//   console.log("offset: " + offSet);
+//   if ((offSet = 0)) {
+//     offSet = offSet + value;
+//     return 0;
+//   } else {
+//     offSet = offSet + value;
+//     return offSet;
+//   }
+// };
+
+const rewriteFn = function (path, req) {
+  return path.replace(
+    `^/productlist`,
+    `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=12`
+  );
 };
 
 // Proxy endpoints
@@ -95,11 +102,12 @@ app.use(
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
-    pathRewrite: {
-      [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=${increaseOffSet(
-        12
-      )}`,
-    },
+    // pathRewrite: {
+    //   [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=${increaseOffSet(
+    //     12
+    //   )}`,
+    // },
+    pathRewrite: rewriteFn,
   })
 );
 
