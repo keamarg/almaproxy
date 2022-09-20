@@ -117,6 +117,7 @@ app.use(
 // Start the Proxy
 app.listen(port, host, () => {
   console.log(`Starting Proxy at ${host}:${port}`);
+  console.log(`${offSet}`);
 });
 
 // var http = require("http"),
