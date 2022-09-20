@@ -34,8 +34,7 @@ const express = require("express");
 const morgan = require("morgan");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-const url =
-  "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?apikey=l8xx1d07986de63b4d0289d5bac8374d99c3";
+const url = "https://api-eu.hosted.exlibrisgroup.com";
 
 // Create Express Server
 const app = express();
@@ -43,6 +42,7 @@ const app = express();
 // Configuration
 var port = config.PORT;
 var host = config.HOST;
+var api_key = config.API_KEY;
 
 // Logging
 app.use(morgan("dev"));
@@ -62,19 +62,28 @@ app.use(function (req, response, next) {
   next();
 });
 
+app.get(
+  "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
+  function (req, res) {
+    // res.send(req.query);
+    console.log(req.query);
+  }
+);
+
 // Info GET endpoint
 app.get("/info", (req, res, next) => {
   res.send("This is a proxy service which proxies to Alma.");
 });
 
-// // Authorization
-// app.use("", (req, res, next) => {
-//   if (req.headers.authorization) {
-//     next();
-//   } else {
-//     res.sendStatus(403);
-//   }
-// });
+// Authorization
+app.use("", (req, res, next) => {
+  req.headers.authorization = "apikey " + api_key;
+  if (req.headers.authorization) {
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+});
 
 // Proxy endpoints
 app.use(
@@ -83,7 +92,8 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/`]: "",
+      [`^`]: "",
+      // "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
     },
   })
 );
