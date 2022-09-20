@@ -79,7 +79,7 @@ app.use("", (req, res, next) => {
 
 // Proxy endpoints
 app.use(
-  "/",
+  "/productlist",
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
@@ -91,7 +91,7 @@ app.use(
 );
 
 app.use(
-  "/test",
+  "/product",
   // (req, res),
   createProxyMiddleware({
     target: url,
