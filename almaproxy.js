@@ -91,8 +91,8 @@ app.use(
 );
 
 app.use(
-  "/product",
-  // (req, res),
+  "/product:id",
+  (req, res),
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
