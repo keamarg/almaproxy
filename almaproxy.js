@@ -62,14 +62,6 @@ app.use(function (req, response, next) {
   next();
 });
 
-app.get(
-  "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
-  function (req, res) {
-    // res.send(req.query);
-    console.log(req.query);
-  }
-);
-
 // Info GET endpoint
 app.get("/info", (req, res, next) => {
   res.send("This is a proxy service which proxies to Alma.");
@@ -93,7 +85,7 @@ app.use(
     changeOrigin: true,
     pathRewrite: {
       [`^`]: "",
-      // "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
+      "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
     },
   })
 );
