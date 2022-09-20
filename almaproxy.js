@@ -75,7 +75,6 @@ app.use("", (req, res, next) => {
   } else {
     res.sendStatus(403);
   }
-  next();
 });
 
 // Proxy endpoints
