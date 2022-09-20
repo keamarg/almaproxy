@@ -90,6 +90,18 @@ app.use(
   })
 );
 
+app.use(
+  "/test",
+  // (req, res),
+  createProxyMiddleware({
+    target: url,
+    changeOrigin: true,
+    pathRewrite: {
+      [`^`]: "/almaws/v1/bibs/99128416807387",
+    },
+  })
+);
+
 // Start the Proxy
 app.listen(port, host, () => {
   console.log(`Starting Proxy at ${host}:${port}`);
