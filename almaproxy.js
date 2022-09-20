@@ -92,12 +92,12 @@ app.use("", (req, res, next) => {
 let first = true;
 let offSet = 0;
 let limit = 12;
-const rewriteFn = function (path, req) {
+const rewriteFn = function (path, req, res) {
   if (first == true) {
     first = false;
   } else {
     offSet = offSet + 12;
-    console.log(req);
+    console.log(res);
   }
   return path.replace(
     "/productlist",
