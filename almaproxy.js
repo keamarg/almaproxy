@@ -91,7 +91,7 @@ app.use("", (req, res, next) => {
 
 let first = true;
 let offSet = 0;
-let limit = 2;
+let limit = 12;
 const rewriteFn = function (path, req) {
   if (first == true) {
     first = false;
