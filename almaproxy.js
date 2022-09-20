@@ -90,20 +90,15 @@ app.use(
   })
 );
 
-let productId;
-app.use(
-  "/product/:id",
-  (req, res) => {
-    productId = req.params.id;
-  },
+app.use("/product/**", (req, res) => {
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/product/${productId}`]: "/almaws/v1/bibs/" + "99128416307387",
+      [`^/product/${req.params.id}`]: "/almaws/v1/bibs/" + req.params.id,
     },
-  })
-);
+  });
+});
 
 // Start the Proxy
 app.listen(port, host, () => {
