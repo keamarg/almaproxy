@@ -89,10 +89,12 @@ app.use("", (req, res, next) => {
 //   }
 // };
 
+let offSet = 12;
+let limit = 2;
 const rewriteFn = function (path, req) {
   return path.replace(
     "/productlist",
-    "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=12"
+    `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=${limit}&offset=${offSet}`
   );
 };
 
