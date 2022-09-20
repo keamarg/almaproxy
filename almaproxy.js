@@ -35,8 +35,6 @@ const morgan = require("morgan");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const url = "https://api-eu.hosted.exlibrisgroup.com";
-const productListUrl =
-  "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=1&offset=12";
 
 // Create Express Server
 const app = express();
@@ -79,18 +77,23 @@ app.use("", (req, res, next) => {
   }
 });
 
-let offSet = 0;
-const increaseOffSet = (value) => {
-  console.log("offset: " + offSet);
-  if ((offSet = 0)) {
-    offSet = offSet + value;
-    return 0;
-  } else {
-    offSet = offSet + value;
-    return offSet;
-  }
+// let offSet = 0;
+// const increaseOffSet = (value) => {
+//   console.log("offset: " + offSet);
+//   if ((offSet = 0)) {
+//     offSet = offSet + value;
+//     return 0;
+//   } else {
+//     offSet = offSet + value;
+//     return offSet;
+//   }
+// };
+const rewriteFn = function (path, req) {
+  return path.replace(
+    "/productlist",
+    "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=0"
+  );
 };
-
 // Proxy endpoints
 app.use(
   "/productlist",
@@ -98,7 +101,8 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/productlist`]: productListUrl,
+      pathRewrite: rewriteFn,
+      // [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=0`,
     },
   })
 );
