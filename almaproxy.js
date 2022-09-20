@@ -98,7 +98,7 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/productlist`]: `${productListUrl},
+      [`^/productlist`]: productListUrl,
     },
   })
 );
