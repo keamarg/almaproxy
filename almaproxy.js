@@ -75,20 +75,21 @@ app.use("", (req, res, next) => {
   } else {
     res.sendStatus(403);
   }
+  next();
 });
 
 // Proxy endpoints
-app.use(
-  "/",
-  createProxyMiddleware({
-    target: url,
-    changeOrigin: true,
-    pathRewrite: {
-      [`^`]:
-        "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
-    },
-  })
-);
+// app.use(
+//   "/",
+//   createProxyMiddleware({
+//     target: url,
+//     changeOrigin: true,
+//     pathRewrite: {
+//       [`^`]:
+//         "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
+//     },
+//   })
+// );
 
 app.use(
   "/test",
