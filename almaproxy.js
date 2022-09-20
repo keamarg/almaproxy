@@ -78,8 +78,7 @@ app.use("", (req, res, next) => {
 });
 
 // Proxy endpoints
-app.use(
-  "/productlist",
+app.use("/productlist", (req, res, next) => {
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
@@ -87,8 +86,8 @@ app.use(
       [`^/productlist`]:
         "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
     },
-  })
-);
+  });
+});
 
 app.use(
   "/product/:id",
@@ -96,7 +95,7 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/product`]: "/almaws/v1/bibs/" + req.params.id,
+      [`^/product`]: "/almaws/v1/bibs/",
     },
   })
 );
