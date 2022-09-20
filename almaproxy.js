@@ -84,8 +84,8 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^`]: "",
-      "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
+      [`^`]:
+        "/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios",
     },
   })
 );
