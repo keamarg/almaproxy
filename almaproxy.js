@@ -96,7 +96,8 @@ const rewriteFn = function (path, req) {
   if (first == true) {
     first = false;
   } else {
-    offSet = offSet + 2;
+    offSet = offSet + 12;
+    console.log(req);
   }
   return path.replace(
     "/productlist",
