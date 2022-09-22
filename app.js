@@ -112,7 +112,7 @@ const rewriteFn = function (path, req) {
 
 // Proxy endpoints
 app.use(
-  "/productlist",
+  "/almaproxy/productlist",
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
@@ -126,7 +126,7 @@ app.use(
 );
 
 app.use(
-  "/product/:id",
+  "/almaproxy/product/:id",
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
