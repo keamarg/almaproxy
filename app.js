@@ -131,7 +131,7 @@ app.use(
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/product`]: "/almaws/v1/bibs/",
+      [`^/product/almaproxy`]: "/almaws/v1/bibs/",
     },
   })
 );
