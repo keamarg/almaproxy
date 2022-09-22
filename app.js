@@ -105,14 +105,14 @@ const rewriteFn = function (path, req) {
     offSet = offSet + 12;
   }
   return path.replace(
-    "/almaproxy/productlist",
-    `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=${limit}&offset=${offSet}`
+    "/productlist",
+    `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios` //?limit=${limit}&offset=${offSet}
   );
 };
 
 // Proxy endpoints
 app.use(
-  "/almaproxy/productlist",
+  "/productlist",
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
@@ -126,12 +126,12 @@ app.use(
 );
 
 app.use(
-  "/almaproxy/product/:id",
+  "/product/:id",
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
     pathRewrite: {
-      [`^/almaproxy/product`]: "/almaws/v1/bibs/",
+      [`^/product`]: "/almaws/v1/bibs/",
     },
   })
 );
