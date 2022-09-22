@@ -1,15 +1,30 @@
+const app = express();
+
 const http = require("http");
-const hostname = "127.0.0.1";
+const host = "127.0.0.1";
 const port = 8081;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/plain");
-  res.end("Hello World! NodeJS \n");
+// const server = http.createServer((req, res) => {
+//   res.statusCode = 200;
+//   res.setHeader("Content-Type", "text/plain");
+//   res.end("Hello World! NodeJS \n");
+// });
+
+// server.listen(port, hostname, () => {
+//   console.log(`Server running at http://${hostname}:${port}/`);
+// });
+
+app.get("/", (req, res, next) => {
+  res.send("Home folder.");
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.get("/info", (req, res, next) => {
+  res.send("This is a proxy service which proxies to Alma.");
+});
+
+// Start the Proxy
+app.listen(port, host, () => {
+  console.log(`Starting Proxy at ${host}:${port}`);
 });
 
 // const config = require("./config.js");
