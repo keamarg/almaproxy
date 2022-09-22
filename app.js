@@ -15,11 +15,11 @@ const port = 8081;
 //   console.log(`Server running at http://${hostname}:${port}/`);
 // });
 
-app.get("/", (req, res, next) => {
+app.get("/almaproxy", (req, res, next) => {
   res.send("Home folder.");
 });
 
-app.get("/info", (req, res, next) => {
+app.get("/almaproxy/info", (req, res, next) => {
   res.send("This is a proxy service which proxies to Alma.");
 });
 
