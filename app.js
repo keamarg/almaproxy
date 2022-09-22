@@ -41,7 +41,7 @@ const app = express();
 // Configuration
 var port = "8081"; //config.PORT;
 var host = "127.0.0.1"; //config.HOST;
-var api_key = config.API_KEY;
+var api_key = "l8xx1d07986de63b4d0289d5bac8374d99c3"; //config.API_KEY;
 
 // var port = config.PORT;
 // var host = config.HOST;
