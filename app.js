@@ -75,7 +75,7 @@ app.get("/almaproxy/info", (req, res, next) => {
 
 // Authorization
 app.use("", (req, res, next) => {
-  // req.headers.authorization = "apikey " + api_key;
+  req.headers.authorization = "apikey " + api_key;
   if (req.headers.authorization) {
     next();
   } else {
