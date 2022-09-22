@@ -75,7 +75,7 @@ app.get("/almaproxy/info", (req, res, next) => {
 
 // Authorization
 app.use("", (req, res, next) => {
-  req.headers.authorization = "apikey " + api_key;
+  // req.headers.authorization = "apikey " + api_key;
   if (req.headers.authorization) {
     next();
   } else {
@@ -112,7 +112,7 @@ const rewriteFn = function (path, req) {
 
 // Proxy endpoints
 app.use(
-  "/almaproxy/productlist",
+  "/productlist",
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
@@ -126,7 +126,7 @@ app.use(
 );
 
 app.use(
-  "/almaproxy/product/:id",
+  "/product/:id",
   createProxyMiddleware({
     target: url,
     changeOrigin: true,
