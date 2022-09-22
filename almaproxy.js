@@ -40,8 +40,8 @@ const url = "https://api-eu.hosted.exlibrisgroup.com";
 const app = express();
 
 // Configuration
-var port = config.PORT;
-var host = config.HOST;
+var port = "8081"; //config.PORT;
+var host = "127.0.0.1"; //config.HOST;
 var api_key = config.API_KEY;
 
 // Logging
@@ -92,12 +92,11 @@ app.use("", (req, res, next) => {
 let first = true;
 let offSet = 0;
 let limit = 12;
-const rewriteFn = function (path, req, res) {
+const rewriteFn = function (path, req) {
   if (first == true) {
     first = false;
   } else {
     offSet = offSet + 12;
-    console.log(res);
   }
   return path.replace(
     "/productlist",
