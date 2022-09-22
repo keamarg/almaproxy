@@ -105,7 +105,7 @@ const rewriteFn = function (path, req) {
     offSet = offSet + 12;
   }
   return path.replace(
-    "/productlist",
+    "/almaproxy/productlist",
     `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=${limit}&offset=${offSet}`
   );
 };
