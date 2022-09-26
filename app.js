@@ -53,20 +53,20 @@ var api_key = "l8xx1d07986de63b4d0289d5bac8374d99c3"; //config.API_KEY;
 // Logging
 app.use(morgan("dev"));
 
-app.use(function (req, response, next) {
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  response.setHeader("Access-Control-Allow-Credentials", "true");
-  response.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,HEAD,OPTIONS,POST,PUT"
-  );
-  response.setHeader(
-    "Access-Control-Allow-Headers",
-    "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-  );
-  // response.setHeader("Authorization", `apikey ${api_key}`);
-  next();
-});
+// app.use(function (req, response, next) {
+//   response.setHeader("Access-Control-Allow-Origin", "*");
+//   response.setHeader("Access-Control-Allow-Credentials", "true");
+//   response.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET,HEAD,OPTIONS,POST,PUT"
+//   );
+//   response.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+//   );
+//   // response.setHeader("Authorization", `apikey ${api_key}`);
+//   next();
+// });
 
 // Info GET endpoint
 app.get("/almaproxy/info", (req, res, next) => {
@@ -83,6 +83,26 @@ app.use("", (req, res, next) => {
   }
 });
 
+let queryPath = null;
+let queryLimit = null;
+let queryOffSet = null;
+let queryUrl = null;
+
+// Parse request
+app.use("", (req, res, next) => {
+  queryUrl = req.url;
+  queryPath = req.query.path;
+  queryLimit = req.query.limit;
+  queryOffSet = req.query.offset;
+  console.log("request url: " + req.url);
+  next();
+});
+
+// app.use("", (req, res, next) => {
+//   res.send(queryPath);
+//   next();
+// });
+
 // let offSet = 0;
 // const increaseOffSet = (value) => {
 //   console.log("offset: " + offSet);
@@ -95,45 +115,77 @@ app.use("", (req, res, next) => {
 //   }
 // };
 
-let first = true;
-let offSet = 0;
-let limit = 100;
+// let first = true;
+// let offSet = 0;
+// let limit = 100;
+// const rewriteFn = function (path, req) {
+//   if (first == true) {
+//     first = false;
+//   } else {
+//     offSet = offSet + 12;
+//   }
+//   return path.replace(
+//     "/almaproxy/productlist",
+//     `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=${limit}` //?limit=${limit}&offset=${offSet}`
+//   );
+// };
+
+// Proxy endpoints
+// app.use(
+//   "/almaproxy/productlist",
+//   createProxyMiddleware({
+//     target: url,
+//     changeOrigin: true,
+//     // pathRewrite: {
+//     //   [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=${increaseOffSet(
+//     //     12
+//     //   )}`,
+//     // },
+//     pathRewrite: rewriteFn,
+//   })
+// );
+
+// app.use(
+//   "/almaproxy/product/:id",
+//   createProxyMiddleware({
+//     target: url,
+//     changeOrigin: true,
+//     pathRewrite: {
+//       [`^/almaproxy/product`]: "/almaws/v1/bibs/",
+//     },
+//   })
+// );
+
 const rewriteFn = function (path, req) {
-  if (first == true) {
-    first = false;
-  } else {
-    offSet = offSet + 12;
-  }
+  // console.log("min path:" + path);
   return path.replace(
-    "/almaproxy/productlist",
-    `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=${limit}` //?limit=${limit}&offset=${offSet}`
+    "/almaproxy", // `${queryPath}` // `/${queryPath}&limit=${queryLimit}&offset=${queryOffSet}` //?limit=${limit}&offset=${offSet}`
+    // "almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios"
+    `/`
+    // "almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios"
   );
 };
 
-// Proxy endpoints
-app.use(
-  "/almaproxy/productlist",
-  createProxyMiddleware({
-    target: url,
-    changeOrigin: true,
-    // pathRewrite: {
-    //   [`^/productlist`]: `/almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios?limit=12&offset=${increaseOffSet(
-    //     12
-    //   )}`,
-    // },
-    pathRewrite: rewriteFn,
-  })
-);
+const options = {
+  target: url,
+  changeOrigin: true,
+  // pathRewrite: rewriteFn,
+  // pathRewrite: {
+  //   [`^/almaproxy`]: `almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios`,
+  // },
+};
 
 app.use(
-  "/almaproxy/product/:id",
-  createProxyMiddleware({
-    target: url,
-    changeOrigin: true,
-    pathRewrite: {
-      [`^/almaproxy/product`]: "/almaws/v1/bibs/",
-    },
-  })
+  "/",
+  createProxyMiddleware(
+    options
+    // target: url,
+    // changeOrigin: true,
+    // pathRewrite: rewriteFn,
+    // pathRewrite: {
+    //   [`^/almaproxy`]: `almaws/v1/electronic/e-collections/618551140007387/e-services/628551130007387/portfolios&limit=22`,
+    // },
+  )
 );
 
 // Start the Proxy
