@@ -4,8 +4,8 @@
   "description": "",
   "main": "almaproxy.js",
   "scripts": {
-    "dev": "NODE_ENV=.development node almaproxy.js",
-    "prod": "NODE_ENV=.production node almaproxy.js",
+    "dev": "NODE_ENV=.development node app.js",
+    "prod": "NODE_ENV=.production node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "MG",
