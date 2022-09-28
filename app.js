@@ -23,11 +23,11 @@ app.get("/info", (req, res, next) => {
   res.send("This is a proxy service which proxies to Alma.");
 });
 
-app.get("*", (req, res) => {
-  // res.send(res.json({ firstName: "Martin" }));
-  res.send(req.headers);
-  res.send(req.headers["X-almaEndpoint"]);
-});
+// app.get("*", (req, res) => {
+// res.send(res.json({ firstName: "Martin" }));
+// res.send(req.headers);
+// res.send(req.headers["X-almaEndpoint"]);
+// });
 
 // Authorization
 app.use("", (req, res, next) => {
@@ -41,7 +41,7 @@ app.use("", (req, res, next) => {
 
 const rewriteFn = function (path, req) {
   console.log("min path:" + path);
-  return path.replace("/almaproxy", ``);
+  return path.replace("/almaproxy", req.headers["X-almaEndpoint"]);
 };
 
 const options = {
