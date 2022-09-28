@@ -50,7 +50,7 @@ const options = {
 
 app.use("/almaproxy", createProxyMiddleware(options));
 
-app.use((_, res) => res.redirect("/"));
+app.use((_, res) => res.redirect("/almaproxy"));
 
 // Start the Proxy
 app.listen(port, host, () => {
