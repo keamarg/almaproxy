@@ -48,7 +48,7 @@ const options = {
   pathRewrite: rewriteFn,
 };
 
-app.use("/almaproxy/*", createProxyMiddleware(options));
+app.use("/almaproxy/*", createProxyMiddleware("*", options));
 
 // Start the Proxy
 app.listen(port, host, () => {
