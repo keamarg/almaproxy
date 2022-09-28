@@ -24,7 +24,7 @@ app.get("/info", (req, res, next) => {
 });
 
 app.get("almaproxy/*", (req, res) => {
-  res.send({ hello: "you" });
+  res.send(`{ "hello": "you" }`);
 });
 
 // Authorization
