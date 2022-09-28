@@ -38,7 +38,7 @@ app.use("", (req, res, next) => {
 });
 
 const rewriteFn = function (path, req) {
-  console.log("min path:" + path);
+  // console.log("min path:" + path);
   return path.replace("/almaproxy", ``);
 };
 
@@ -48,7 +48,7 @@ const options = {
   pathRewrite: rewriteFn,
 };
 
-app.use("/almaproxy:id", createProxyMiddleware(options));
+app.use("/almaproxy/:id", createProxyMiddleware(options));
 
 // Start the Proxy
 app.listen(port, host, () => {
