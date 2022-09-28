@@ -23,8 +23,8 @@ app.get("/info", (req, res, next) => {
   res.send("This is a proxy service which proxies to Alma.");
 });
 
-app.get("*", (req, res) => {
-  res.send(__dirname);
+app.get("almaproxy/*", (req, res) => {
+  res.send("hello"`);
 });
 
 // Authorization
