@@ -24,8 +24,8 @@ app.get("/info", (req, res, next) => {
 });
 
 app.get("*", (req, res) => {
-  res.send(res.json({ firstName: "Martin" }));
-  res.send(req.headers.authorization);
+  // res.send(res.json({ firstName: "Martin" }));
+  res.send(req.headers);
 });
 
 // Authorization
