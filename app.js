@@ -23,9 +23,10 @@ app.get("/info", (req, res, next) => {
   res.send("This is a proxy service which proxies to Alma.");
 });
 
-// app.get("*", (req, res) => {
-//   res.send(res.json({ firstName: "Martin" }));
-// });
+app.get("*", (req, res) => {
+  // res.send(res.json({ firstName: "Martin" }));
+  res.send(req.headers.authorization);
+});
 
 // Authorization
 app.use("", (req, res, next) => {
@@ -50,7 +51,7 @@ const options = {
 
 app.use("/almaproxy", createProxyMiddleware(options));
 
-app.use((_, res) => res.redirect("/almaproxy"));
+// app.use((_, res) => res.redirect("/"));
 
 // Start the Proxy
 app.listen(port, host, () => {
