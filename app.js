@@ -7,6 +7,8 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const url = "https://api-eu.hosted.exlibrisgroup.com";
 
+process.env.NODE_ENV = "production";
+
 // Create Express Server
 const app = express();
 
