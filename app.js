@@ -13,7 +13,7 @@ const app = express();
 // Configuration
 var port = config.PORT;
 var host = config.HOST;
-var api_key = config.API_KEY; //"l8xx1d07986de63b4d0289d5bac8374d99c3";
+var api_key = config.API_KEY;
 
 // Logging
 app.use(morgan("dev"));
