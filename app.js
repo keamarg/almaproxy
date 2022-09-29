@@ -60,7 +60,7 @@ app.listen(port, host, () => {
   console.log(`Starting Proxy at ${host}:${port}`);
 });
 
-//localhost version
+// // localhost version
 // const config = require("./config.js");
 // const express = require("express");
 // const morgan = require("morgan");
@@ -78,6 +78,21 @@ app.listen(port, host, () => {
 
 // // Logging
 // app.use(morgan("dev"));
+
+// app.use(function (req, response, next) {
+//   response.setHeader("Access-Control-Allow-Origin", "*");
+//   response.setHeader("Access-Control-Allow-Credentials", "true");
+//   response.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET,HEAD,OPTIONS,POST,PUT"
+//   );
+//   response.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+//   );
+//   // response.setHeader("Authorization", `apikey ${api_key}`);
+//   next();
+// });
 
 // // Info GET endpoint
 // app.get("/info", (req, res, next) => {
