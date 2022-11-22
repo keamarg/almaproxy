@@ -1,66 +1,3 @@
-// //Production version
-
-// const config = require("./config.js");
-// const express = require("express");
-// const morgan = require("morgan");
-// const { createProxyMiddleware } = require("http-proxy-middleware");
-
-// const url = "https://api-eu.hosted.exlibrisgroup.com";
-
-// // Create Express Server
-// const app = express();
-
-// // Configuration
-// var port = config.PORT;
-// var host = config.HOST;
-// var api_key = config.API_KEY;
-
-// // Logging
-// app.use(morgan("dev"));
-
-// // Info GET endpoint
-// app.get("/info", (req, res, next) => {
-//   res.send("This is a proxy service which proxies to Alma.");
-// });
-
-// // app.get("*", (req, res) => {
-// //   res.send(res.json({ firstName: "Martin" }));
-// //   res.send(req.headers);
-// //   res.send(req.headers["X-almaEndpoint"]);
-// // });
-
-// // Authorization
-// app.use("", (req, res, next) => {
-//   req.headers.authorization = "apikey " + api_key;
-//   if (req.headers.authorization) {
-//     next();
-//   } else {
-//     res.sendStatus(403);
-//   }
-// });
-
-// const rewriteFn = function (path, req) {
-//   console.log("min path:" + path);
-//   return path.replace("/almaproxy", ``);
-//   // return path.replace("/almaproxy", req.headers["X-almaEndpoint"]);
-// };
-
-// const options = {
-//   target: url,
-//   changeOrigin: true,
-//   pathRewrite: rewriteFn,
-// };
-
-// app.use("/almaproxy", createProxyMiddleware(options));
-
-// // app.use((_, res) => res.redirect("/"));
-
-// // Start the Proxy
-// app.listen(port, host, () => {
-//   console.log(`Starting Proxy at ${host}:${port}`);
-// });
-
-// localhost version
 const config = require("./config.js");
 const express = require("express");
 const morgan = require("morgan");
@@ -82,7 +19,7 @@ app.use(morgan("dev"));
 app.use(function (req, response, next) {
   response.setHeader("Access-Control-Allow-Origin", "*");
   response.setHeader("Access-Control-Allow-Credentials", "true");
-  response.setHeader("cache", "no-cache");
+  response.setHeader("Cache-Control", "no-cache");
   response.setHeader(
     "Access-Control-Allow-Methods",
     "GET,HEAD,OPTIONS,POST,PUT"
